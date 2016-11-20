@@ -19,7 +19,7 @@ conn = psycopg2.connect(database="tcount", user="postgres", password="pass", hos
 cur = conn.cursor()
 
 if args.searchword:
-    word = args.searchword[0].lower()
+    word = args.searchword.lower()
     query = cur.mogrify("SELECT word, count FROM tweetwordcount WHERE word = %s", [word])
     cur.execute(query)
     records = cur.fetchall()

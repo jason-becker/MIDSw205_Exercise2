@@ -71,9 +71,7 @@ sparse quickstart tweetWordCount
 
 #COPY PYTHON PARSE/BOLT FILES INTO PROJECT
 #COPY TOPOLOGY FILE INTO PROJECT
-rm tweetWordCount/src/bolts/__init__.py
 rm tweetWordCount/src/bolts/wordcount.py
-rm tweetWordCount/src/spouts/__init__.py
 rm tweetWordCount/src/spouts/words.py
 rm tweetWordCount/topologies/wordcount.clj
 cp MIDSw205_Exercise2/scripts/tweets.py tweetWordCount/src/spouts/tweets.py
@@ -81,7 +79,7 @@ cp MIDSw205_Exercise2/scripts/parse.py tweetWordCount/src/bolts/parse.py
 cp MIDSw205_Exercise2/scripts/wordcount.py tweetWordCount/src/bolts/wordcount.py
 cp MIDSw205_Exercise2/scripts/tweetwordcount.clj tweetWordCount/topologies/tweetwordcount.clj
 cp MIDSw205_Exercise2/scripts/finalresults.py /root/data/finalresults.py
-cp MIDSw205_Exercise2/scripts/finalresults.py /root/data/finalresults.py
+cp MIDSw205_Exercise2/scripts/histogram.py /root/data/histogram.py
 
 #SETUP POSTGRES DATABASE
 python MIDSw205_Exercise2/scripts/start-db.py
