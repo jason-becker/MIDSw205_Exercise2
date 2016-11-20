@@ -5,10 +5,14 @@
 -Attach an EBS volume  
 -Connect to the instance  
 __Type:__  
-- `fdisk -l` 		to discover the path to your EBS volume (e.g. /dev/xvdf)  
-- `wget https://raw.github.com/jason-becker/MIDSw205_Exercise2/master/scripts/setup-tweet-word-count.sh` 		to download the starting script  
-- `chmod +x setup-tweet-word-count.sh` 		to grant permission to execute the script  
-- `./setup-tweet-word-count.sh [/dev/xvdf]` 		replace the volume location with your EBS volume location  
+- Discover the path to your EBS volume (e.g. /dev/xvdf)  
+	`fdisk -l`  
+- Download the starting script  
+	`wget https://raw.github.com/jason-becker/MIDSw205_Exercise2/master/scripts/setup-tweet-word-count.sh`  
+- To grant permission to execute the script  
+	`chmod +x setup-tweet-word-count.sh`  
+- Replace the volume location with your EBS volume location  
+	`./setup-tweet-word-count.sh [/dev/xvdf]`  
 
 The setup script may take a couple minutes to complete.  
 

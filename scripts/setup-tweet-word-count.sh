@@ -27,7 +27,7 @@ chmod a+rwx /root/data
 cd /root/data
 cat > start-tweet-word-count.sh <<EOF
 #! /bin/bash
-cd /data/tweetwordcount
+cd /data/tweetWordCount
 sparse run
 EOF
 chmod +x /root/data/start-tweet-word-count.sh
