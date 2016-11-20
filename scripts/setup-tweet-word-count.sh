@@ -1,12 +1,8 @@
-echo "####SETTING UP DATA DIRECTORY###"
-mkdir /data
 cd /data
 
 echo "###INSTALLING PYTHON LIBRARIES###"
 pip install psycopg2
 pip install tweepy
-
-
 
 ###INSTALL POSTGRES###
 #! /bin/bash
@@ -26,13 +22,15 @@ mount -t ext4 $1 /data
 chmod a+rwx /data
 
 #COPY START SCRIPT TO THIS FOLDER
-cd /root
+mkdir /root/data
+chmod a+rwx /root/data
+cd /root/data
 cat > start-tweet-word-count.sh <<EOF
 #! /bin/bash
 cd /data/tweetwordcount
 sparse run
 EOF
-chmod +x /root/start-tweet-word-count.sh
+chmod +x /root/data/start-tweet-word-count.sh
 
 #set up directories for postgres
 mkdir /data/pgsql
@@ -49,22 +47,22 @@ sudo -u postgres echo "listen_addresses = '*'" >> /data/pgsql/data/postgresql.co
 sudo -u postgres echo "standard_conforming_strings = off" >> /data/pgsql/data/postgresql.conf
 
 #make start postgres file
-cd /root
-cat > /data/start_postgres.sh <<EOF
+cd /root/data
+cat > /root/data/start_postgres.sh <<EOF
 #! /bin/bash
 sudo -u postgres pg_ctl -D /data/pgsql/data -l /data/pgsql/logs/pgsql.log start
 EOF
-chmod +x /root/start_postgres.sh
+chmod +x /root/data/start_postgres.sh
 
 #make a stop postgres file
-cat > /root/stop_postgres.sh <<EOF
+cat > /root/data/stop_postgres.sh <<EOF
 #! /bin/bash
 sudo -u postgres pg_ctl -D /data/pgsql/data -l /data/pgsql/logs/pgsql.log stop
 EOF
-chmod +x /root/stop_postgres.sh
+chmod +x /root/data/stop_postgres.sh
 
 #start postgres
-/root/start_postgres.sh
+/root/data/start_postgres.sh
 
 echo "###SETUP SPARSE PROJECT###"
 cd /data
@@ -82,6 +80,8 @@ cp MIDSw205_Exercise2/scripts/tweets.py tweetWordCount/src/spouts/tweets.py
 cp MIDSw205_Exercise2/scripts/parse.py tweetWordCount/src/bolts/parse.py
 cp MIDSw205_Exercise2/scripts/wordcount.py tweetWordCount/src/bolts/wordcount.py
 cp MIDSw205_Exercise2/scripts/tweetwordcount.clj tweetWordCount/topologies/tweetwordcount.clj
+cp MIDSw205_Exercise2/scripts/finalresults.py /root/data/finalresults.py
+cp MIDSw205_Exercise2/scripts/finalresults.py /root/data/finalresults.py
 
 #SETUP POSTGRES DATABASE
 python MIDSw205_Exercise2/scripts/start-db.py
