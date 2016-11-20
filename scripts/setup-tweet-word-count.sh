@@ -1,23 +1,25 @@
-mkdir /root/data
-cd /root/data
+print "####SETTING UP DATA DIRECTORY###"
+mkdir /data
+cd /data
 git clone https://github.com/jason-becker/MIDSw205_Exercise2.git
+print "###INSTALLING PYTHONG LIBRARIES###"
 pip install psycopg2
 pip install tweepy
 
-###SETUP SPARSE###
+print "###SETUP SPARSE PROJECT###"
 sparse quickstart tweetWordCount
 
 #COPY PYTHON PARSE/BOLT FILES INTO PROJECT
 #COPY TOPOLOGY FILE INTO PROJECT
-rm tweetwordcount/src/bolts/__init__.py
-rm tweetwordcount/src/bolts/wordcount.py
-rm tweetwordcount/src/spouts/__init__.py
-rm tweetwordcount/src/spouts/words.py
-rm tweetwordcount/topologies/wordcount.clj
-cp MIDSw205_Exercise2/scripts/tweets.py tweetwordcount/src/spouts/tweets.py
-cp MIDSw205_Exercise2/scripts/parse.py tweetwordcount/src/bolts/parse.py
-cp MIDSw205_Exercise2/scripts/wordcount.py tweetwordcount/src/bolts/wordcount.py
-cp MIDSw205_Exercise2/scripts/tweetwordcount.clj tweetwordcount/topologies/tweetwordcount.clj
+rm tweetWordCount/src/bolts/__init__.py
+rm tweetWordCount/src/bolts/wordcount.py
+rm tweetWordCount/src/spouts/__init__.py
+rm tweetWordCount/src/spouts/words.py
+rm tweetWordCount/topologies/wordcount.clj
+cp MIDSw205_Exercise2/scripts/tweets.py tweetWordCount/src/spouts/tweets.py
+cp MIDSw205_Exercise2/scripts/parse.py tweetWordCount/src/bolts/parse.py
+cp MIDSw205_Exercise2/scripts/wordcount.py tweetWordCount/src/bolts/wordcount.py
+cp MIDSw205_Exercise2/scripts/tweetwordcount.clj tweetWordCount/topologies/tweetwordcount.clj
 
 #COPY START SCRIPT TO THIS FOLDER
 cat > start-tweet-word-count.sh <<EOF
@@ -76,5 +78,8 @@ chmod +x /data/stop_postgres.sh
 /data/start_postgres.sh
 
 #SETUP POSTGRES DATABASE
+cd /root/data
 python MIDSw205_Exercise2/scripts/start-db.py
-Contact GitHub 
+
+echo "PostGRESQL Database initialized"
+
