@@ -1,6 +1,6 @@
 #MIDSw205_Exercise2
 
-##__To setup:__ ##  
+##__To setup:__  
 - Create an EC2 instance using the "UCB MIDS W205 EX2-FULL" AMI (AMI Id: ami-d4dd4ec3)  
 - Attach an EBS volume  
 - Connect to the instance  
