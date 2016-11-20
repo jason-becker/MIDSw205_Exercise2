@@ -10,7 +10,12 @@ class WordCounter(Bolt):
         self.counts = Counter()
         conn = psycopg2.connect(database="tcount", user="postgres", password="pass", host="localhost", port="5432")
         cur = conn.cursor()
-        
+        cur.execute("SELECT word, count FROM tweetwordcount")
+        records = cur.fetchall()
+        for rec in records:
+            self.counts[rec[0]] = rec[1]
+        conn.commit()
+        conn.close()
     def process(self, tup):
         word = tup.values[0]
         word = word.lower()
