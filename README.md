@@ -5,10 +5,10 @@
 -Attach an EBS volume  
 -Connect to the instance  
 __Type:__  
-`fdisk -l` 	to discover the path to your EBS volume (e.g. /dev/xvdf)  
-`wget https://raw.github.com/jason-becker/MIDSw205_Exercise2/master/scripts/setup-tweet-word-count.sh` 		to download the starting script  
-`chmod +x setup-tweet-word-count.sh` 	to grant permission to execute the script  
-`./setup-tweet-word-count.sh [/dev/xvdf]` 	replace the volume location with your EBS volume location  
+- `fdisk -l` 		to discover the path to your EBS volume (e.g. /dev/xvdf)  
+- `wget https://raw.github.com/jason-becker/MIDSw205_Exercise2/master/scripts/setup-tweet-word-count.sh` 		to download the starting script  
+- `chmod +x setup-tweet-word-count.sh` 		to grant permission to execute the script  
+- `./setup-tweet-word-count.sh [/dev/xvdf]` 		replace the volume location with your EBS volume location  
 
 The setup script may take a couple minutes to complete.  
 
@@ -18,7 +18,7 @@ __To stream some tweets:__
 
 __To serve some information about the data:__  
 - Navigate to `/root/data`  
-- `python finalresults.py` __OR__ `python histogram.py`
+- `python finalresults.py` __OR__ `python histogram.py`  
 Final results - supply a single word to find out its frequency (optional)  
 Histogram - supply a min and max number of occurrences to find out how which words fall into that count range  
 
