@@ -1,32 +1,12 @@
-print "####SETTING UP DATA DIRECTORY###"
+echo "####SETTING UP DATA DIRECTORY###"
 mkdir /data
 cd /data
-git clone https://github.com/jason-becker/MIDSw205_Exercise2.git
-print "###INSTALLING PYTHONG LIBRARIES###"
+
+echo "###INSTALLING PYTHON LIBRARIES###"
 pip install psycopg2
 pip install tweepy
 
-print "###SETUP SPARSE PROJECT###"
-sparse quickstart tweetWordCount
 
-#COPY PYTHON PARSE/BOLT FILES INTO PROJECT
-#COPY TOPOLOGY FILE INTO PROJECT
-rm tweetWordCount/src/bolts/__init__.py
-rm tweetWordCount/src/bolts/wordcount.py
-rm tweetWordCount/src/spouts/__init__.py
-rm tweetWordCount/src/spouts/words.py
-rm tweetWordCount/topologies/wordcount.clj
-cp MIDSw205_Exercise2/scripts/tweets.py tweetWordCount/src/spouts/tweets.py
-cp MIDSw205_Exercise2/scripts/parse.py tweetWordCount/src/bolts/parse.py
-cp MIDSw205_Exercise2/scripts/wordcount.py tweetWordCount/src/bolts/wordcount.py
-cp MIDSw205_Exercise2/scripts/tweetwordcount.clj tweetWordCount/topologies/tweetwordcount.clj
-
-#COPY START SCRIPT TO THIS FOLDER
-cat > start-tweet-word-count.sh <<EOF
-#! /bin/bash
-cd /root/data/tweetwordcount
-sparse run
-EOF
 
 ###INSTALL POSTGRES###
 #! /bin/bash
@@ -45,6 +25,15 @@ mkfs.ext4 $1
 mount -t ext4 $1 /data
 chmod a+rwx /data
 
+#COPY START SCRIPT TO THIS FOLDER
+cd /root
+cat > start-tweet-word-count.sh <<EOF
+#! /bin/bash
+cd /data/tweetwordcount
+sparse run
+EOF
+chmod +x /root/start-tweet-word-count.sh
+
 #set up directories for postgres
 mkdir /data/pgsql
 mkdir /data/pgsql/data
@@ -60,26 +49,41 @@ sudo -u postgres echo "listen_addresses = '*'" >> /data/pgsql/data/postgresql.co
 sudo -u postgres echo "standard_conforming_strings = off" >> /data/pgsql/data/postgresql.conf
 
 #make start postgres file
-cd /data
+cd /root
 cat > /data/start_postgres.sh <<EOF
 #! /bin/bash
 sudo -u postgres pg_ctl -D /data/pgsql/data -l /data/pgsql/logs/pgsql.log start
 EOF
-chmod +x /data/start_postgres.sh
+chmod +x /root/start_postgres.sh
 
 #make a stop postgres file
-cat > /data/stop_postgres.sh <<EOF
+cat > /root/stop_postgres.sh <<EOF
 #! /bin/bash
 sudo -u postgres pg_ctl -D /data/pgsql/data -l /data/pgsql/logs/pgsql.log stop
 EOF
-chmod +x /data/stop_postgres.sh
+chmod +x /root/stop_postgres.sh
 
 #start postgres
-/data/start_postgres.sh
+/root/start_postgres.sh
+
+echo "###SETUP SPARSE PROJECT###"
+cd /data
+git clone https://github.com/jason-becker/MIDSw205_Exercise2.git
+sparse quickstart tweetWordCount
+
+#COPY PYTHON PARSE/BOLT FILES INTO PROJECT
+#COPY TOPOLOGY FILE INTO PROJECT
+rm tweetWordCount/src/bolts/__init__.py
+rm tweetWordCount/src/bolts/wordcount.py
+rm tweetWordCount/src/spouts/__init__.py
+rm tweetWordCount/src/spouts/words.py
+rm tweetWordCount/topologies/wordcount.clj
+cp MIDSw205_Exercise2/scripts/tweets.py tweetWordCount/src/spouts/tweets.py
+cp MIDSw205_Exercise2/scripts/parse.py tweetWordCount/src/bolts/parse.py
+cp MIDSw205_Exercise2/scripts/wordcount.py tweetWordCount/src/bolts/wordcount.py
+cp MIDSw205_Exercise2/scripts/tweetwordcount.clj tweetWordCount/topologies/tweetwordcount.clj
 
 #SETUP POSTGRES DATABASE
-cd /root/data
 python MIDSw205_Exercise2/scripts/start-db.py
-
 echo "PostGRESQL Database initialized"
 
